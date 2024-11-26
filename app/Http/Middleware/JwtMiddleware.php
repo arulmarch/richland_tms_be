@@ -21,7 +21,7 @@ class JwtMiddleware
             ], 401);
         }
         try {
-            $credentials = JWT::decode($token, env('JWT_SECRET'), ['HS256']);
+            $credentials = JWT::decode($token, config('app.jwt_secret'), ['HS256']);
         } catch(ExpiredException $e) {
             return response()->json([
                 "code" => "05",

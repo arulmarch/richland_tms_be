@@ -35,7 +35,7 @@ class UserManagementController extends Controller
 
         // As you can see we are passing `JWT_SECRET` as the second parameter that will
         // be used to decode the token in the future.
-        return JWT::encode($payload, env('JWT_SECRET'));
+        return JWT::encode($payload, config('app.jwt_secret'));
     }
 
     protected function jwtWeb($dataJwt) {
@@ -50,7 +50,7 @@ class UserManagementController extends Controller
 
         // As you can see we are passing `JWT_SECRET` as the second parameter that will
         // be used to decode the token in the future.
-        return JWT::encode($payload, env('JWT_SECRET'));
+        return JWT::encode($payload, config('app.jwt_secret'));
     }
 
     public function Login (Request $request) {
