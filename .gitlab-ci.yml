@@ -1,0 +1,28 @@
+image: mmrr/ssh-client:3.18
+before_script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+stages:
+  - develop
+  - production-arlogi
+
+development:
+  stage: develop
+  script:
+    - ssh -o StrictHostKeyChecking=no  -p $PORT_SSH $USER@$IP_SERVER "cd $FOLDER_DEVELOP && git pull"
+    - ssh -o StrictHostKeyChecking=no  -p $PORT_SSH $USER@$IP_SERVER "cd $FOLDER_DEVELOP && php artisan optimize"
+    - ssh -o StrictHostKeyChecking=no  -p $PORT_SSH $USER@$IP_SERVER "cd $FOLDER_DEVELOP && php artisan config:clear"
+  only:
+    - develop
+
+production:
+  stage: production-arlogi
+  script:
+    - ssh -o StrictHostKeyChecking=no  -p $PORT_SSH $USER@$IP_SERVER "cd $FOLDER_ARLOGI && git pull"
+    - ssh -o StrictHostKeyChecking=no  -p $PORT_SSH $USER@$IP_SERVER "cd $FOLDER_ARLOGI && php artisan optimize"
+    - ssh -o StrictHostKeyChecking=no  -p $PORT_SSH $USER@$IP_SERVER "cd $FOLDER_ARLOGI && php artisan config:clear"
+  only:
+    - main
+
