@@ -36,8 +36,8 @@ class DriverController extends Controller
                 "message" =>  $validator->messages(),
             );
         } else {
-        
-            $data = MasterDriver::select('tb_drivers.*', 'user.name as created_name', 'user_update.name as updated_name', 'tb_company.name as name_company', 
+
+            $data = MasterDriver::select('tb_drivers.*', 'user.name as created_name', 'user_update.name as updated_name', 'tb_company.name as name_company',
                                         'tb_transporters.transporter_id as transporter_name')
                     ->leftJoin('user as user', 'tb_drivers.created_by', '=', 'user.user_id')
                     ->leftJoin('user as user_update', 'tb_drivers.updated_by', '=', 'user_update.user_id')
@@ -49,11 +49,11 @@ class DriverController extends Controller
 
             $respon = array(
                 "code" => "01",
-                "data" => $data 
+                "data" => $data
             );
 
             $response_code = 200;
-        
+
         }
 
         return response()->json($respon, $response_code);
@@ -76,7 +76,7 @@ class DriverController extends Controller
                 "message" =>  $validator->messages(),
             );
         } else {
-        
+
             $data = MasterDriver::select('tb_drivers.id', 'tb_drivers.name')
                     ->where('tb_drivers.id_company', $id_company)
                     ->where('tb_drivers.deleted', '0')
@@ -86,11 +86,11 @@ class DriverController extends Controller
 
             $respon = array(
                 "code" => "01",
-                "data" => $data 
+                "data" => $data
             );
 
             $response_code = 200;
-        
+
         }
 
         return response()->json($respon, $response_code);
@@ -144,7 +144,7 @@ class DriverController extends Controller
         $sim_file = '';
         $ktp_file = '';
         $name_rsp = Str::replace(' ', '-', $name);
-        
+
         if ($request->file('sim_file')) {
             $size = floor($request->file('sim_file')->getSize() / 1024);
             if ($size > 1000) { //1 MB
@@ -194,7 +194,7 @@ class DriverController extends Controller
                     "message" =>  "Nomor Telpon tidak boleh sama",
                 );
             } else {
-                try 
+                try
                 {
                     $create = new MasterDriver;
                     $create->name = $name;
@@ -207,10 +207,13 @@ class DriverController extends Controller
                     $create->id_company = $id_company;
                     $create->foto_sim = $sim_file;
                     $create->foto_ktp = $ktp_file;
-    
-    
+                    $create->license_exp_date = $request->license_exp_date;
+                    $create->no_sim = $request->no_sim;
+                    $create->no_ktp = $request->no_ktp;
+
+
                     $create->save();
-                                    
+
                     $respon = array(
                         "code" => "01",
                         "message" => "Berhasil menyimpan data",
@@ -298,7 +301,7 @@ class DriverController extends Controller
                     "message" =>  "Nomor Telpon tidak boleh sama",
                 );
             } else {
-                try 
+                try
                 {
                     $update = MasterDriver::find($id);
                     $update->name = $name;
@@ -316,8 +319,12 @@ class DriverController extends Controller
                         $update->foto_ktp = $ktp_file;
                     }
 
+                    $update->license_exp_date = $request->license_exp_date;
+                    $update->no_sim = $request->no_sim;
+                    $update->no_ktp = $request->no_ktp;
+
                     $update->save();
-                                    
+
                     $respon = array(
                         "code" => "01",
                         "message" => "Berhasil menyimpan data",
@@ -351,14 +358,14 @@ class DriverController extends Controller
                 "message" =>  $validator->messages(),
             );
         } else {
-            try 
+            try
             {
                 $update = MasterDriver::find($id);
                 $update->deleted = 1;
                 $update->updated_by = $updated_by;
 
                 $update->save();
-                                
+
                 $respon = array(
                     "code" => "01",
                     "message" => "Berhasil menghapus data",
