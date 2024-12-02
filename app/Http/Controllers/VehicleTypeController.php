@@ -35,7 +35,7 @@ class VehicleTypeController extends Controller
                 "message" =>  $validator->messages(),
             );
         } else {
-        
+
             $data = VehicleType::select('tb_vehicle_types.*', 'user.name as created_name', 'user_update.name as updated_name', 'tb_company.name as name_company')
                     ->leftJoin('user as user', 'tb_vehicle_types.created_by', '=', 'user.user_id')
                     ->leftJoin('user as user_update', 'tb_vehicle_types.updated_by', '=', 'user_update.user_id')
@@ -46,7 +46,7 @@ class VehicleTypeController extends Controller
 
             $respon = array(
                 "code" => "01",
-                "data" => $data 
+                "data" => $data
             );
 
             $response_code = 200;
@@ -74,17 +74,17 @@ class VehicleTypeController extends Controller
                 "message" =>  $validator->messages(),
             );
         } else {
-        
-            $data = VehicleType::select('tb_vehicle_types.id', 'tb_vehicle_types.type_id', 'tb_vehicle_types.volume_cap', 'tb_vehicle_types.weight_cap')
-                    ->where('tb_vehicle_types.id_company', $id_company)
-                    ->where('tb_vehicle_types.deleted', '0')
-                    ->whereRaw("tb_vehicle_types.type_id like '%${search}%'")
+
+            $data = VehicleType::select('id', 'description as desc', 'type_id', 'volume_cap', 'weight_cap')
+                    ->where('id_company', $id_company)
+                    ->where('deleted', '0')
+                    ->whereRaw("type_id like '%${search}%'")
                     ->limit(10)
                     ->get();
 
             $respon = array(
                 "code" => "01",
-                "data" => $data 
+                "data" => $data
             );
 
             $response_code = 200;
@@ -156,7 +156,7 @@ class VehicleTypeController extends Controller
                     "message" =>  "Vehicle Type tidak boleh sama",
                 );
             } else {
-                try 
+                try
                 {
                     $create = new VehicleType;
                     $create->type_id = $type_id;
@@ -167,7 +167,7 @@ class VehicleTypeController extends Controller
                     $create->id_company = $id_company;
 
                     $create->save();
-                                    
+
                     $respon = array(
                         "code" => "01",
                         "message" => "Berhasil menyimpan data",
@@ -215,7 +215,7 @@ class VehicleTypeController extends Controller
                     "message" =>  "Vehicle Type tidak boleh sama",
                 );
             } else {
-                try 
+                try
                 {
                     $update = VehicleType::find($id);
                     $update->type_id = $type_id;
@@ -226,7 +226,7 @@ class VehicleTypeController extends Controller
                     $update->id_company = $id_company;
 
                     $update->save();
-                                    
+
                     $respon = array(
                         "code" => "01",
                         "message" => "Berhasil menyimpan data",
@@ -260,14 +260,14 @@ class VehicleTypeController extends Controller
                 "message" =>  $validator->messages(),
             );
         } else {
-            try 
+            try
             {
                 $update = VehicleType::find($id);
                 $update->deleted = 1;
                 $update->updated_by = $updated_by;
 
                 $update->save();
-                                
+
                 $respon = array(
                     "code" => "01",
                     "message" => "Berhasil menghapus data",

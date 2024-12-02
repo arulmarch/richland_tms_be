@@ -133,6 +133,7 @@ class DriverController extends Controller
     }
 
     public function Create (Request $request) {
+
         $name = $request->name;
         $address1 = $request->address1;
         $address2 = $request->address2;
@@ -196,6 +197,9 @@ class DriverController extends Controller
             } else {
                 try
                 {
+
+                    DB::beginTransaction();
+
                     $create = new MasterDriver;
                     $create->name = $name;
                     $create->address1 = $address1;
@@ -209,10 +213,12 @@ class DriverController extends Controller
                     $create->foto_ktp = $ktp_file;
                     $create->license_exp_date = $request->license_exp_date;
                     $create->no_sim = $request->no_sim;
-                    $create->no_ktp = $request->no_ktp;
+                    $create->no_nik = $request->no_nik;
 
 
                     $create->save();
+
+                    DB::commit();
 
                     $respon = array(
                         "code" => "01",
@@ -221,6 +227,8 @@ class DriverController extends Controller
                 }
                 catch(Exception $e)
                 {
+                    DB::rollback();
+
                     $respon = array(
                         "code" => "03",
                         "message" =>  "Ada masalah dengan server, harap coba lagi nanti !",
@@ -321,7 +329,7 @@ class DriverController extends Controller
 
                     $update->license_exp_date = $request->license_exp_date;
                     $update->no_sim = $request->no_sim;
-                    $update->no_ktp = $request->no_ktp;
+                    $update->no_nik = $request->no_nik;
 
                     $update->save();
 

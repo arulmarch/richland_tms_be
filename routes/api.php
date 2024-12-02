@@ -2,51 +2,52 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MasterUomController;
-use App\Http\Controllers\UserManagementController;
-use App\Http\Controllers\MessageBrokerController;
-use App\Http\Controllers\TrackingDriverController;
-use App\Http\Controllers\MobileAppsVersionController;
+use App\Http\Controllers\PODController;
+use App\Http\Controllers\OwnedController;
 use App\Http\Controllers\BannerController;
-use App\Http\Controllers\DetailOrderManagementController;
-use App\Http\Controllers\MasterUserController;
-use App\Http\Controllers\MasterCompanyController;
-use App\Http\Controllers\MasterRoleController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\MasterCostComponentController;
-use App\Http\Controllers\MasterAreasController;
-use App\Http\Controllers\MasterCustomerController;
-use App\Http\Controllers\VehicleController;
-use App\Http\Controllers\VehicleTypeController;
 use App\Http\Controllers\DriverController;
-use App\Http\Controllers\TransporterRateController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\ManifestController;
+use App\Http\Controllers\MechanicController;
+use App\Http\Controllers\RingCodeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MasterUomController;
+use App\Http\Controllers\ProcedureController;
+use App\Http\Controllers\ClientRateController;
+use App\Http\Controllers\MasterRoleController;
+use App\Http\Controllers\MasterUserController;
+use App\Http\Controllers\MasterAreasController;
+use App\Http\Controllers\SelfBillingController;
+use App\Http\Controllers\ServiceTaskController;
 use App\Http\Controllers\TransporterController;
+use App\Http\Controllers\TypeTaxableController;
+use App\Http\Controllers\VehicleTypeController;
+use App\Http\Controllers\AccidentTypeController;
 use App\Http\Controllers\MasterClientController;
 use App\Http\Controllers\MasterVendorController;
-use App\Http\Controllers\MechanicController;
-use App\Http\Controllers\ClientRateController;
-use App\Http\Controllers\TruckAccidentController;
-use App\Http\Controllers\ServiceTaskController;
-use App\Http\Controllers\ServiceTaskEntriesController;
-use App\Http\Controllers\ServiceOrderController;
-use App\Http\Controllers\AccidentTypeController;
-use App\Http\Controllers\ListOrderManagementController;
-use App\Http\Controllers\ManifestController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\OwnedController;
-use App\Http\Controllers\TypeTaxableController;
-use App\Http\Controllers\TruckingOrderController;
-use App\Http\Controllers\TransportOrderController;
-use App\Http\Controllers\RingCodeController;
-use App\Http\Controllers\RoutePlanningController;
-use App\Http\Controllers\ComponentEntriesController;
-use App\Http\Controllers\TrafficMonitoringController;
-use App\Http\Controllers\PODController;
-use App\Http\Controllers\SelfBillingController;
 use App\Http\Controllers\SalesInvoiceController;
-use App\Http\Controllers\HistoryChangeLoadController;
-use App\Http\Controllers\ProcedureController;
+use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\DedicatedRateController;
+use App\Http\Controllers\MasterCompanyController;
+use App\Http\Controllers\MessageBrokerController;
+use App\Http\Controllers\RoutePlanningController;
+use App\Http\Controllers\TruckAccidentController;
+use App\Http\Controllers\TruckingOrderController;
+use App\Http\Controllers\MasterCustomerController;
+use App\Http\Controllers\TrackingDriverController;
+use App\Http\Controllers\TransportOrderController;
+use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\TransporterRateController;
+use App\Http\Controllers\ComponentEntriesController;
+use App\Http\Controllers\HistoryChangeLoadController;
+use App\Http\Controllers\MobileAppsVersionController;
+use App\Http\Controllers\TrafficMonitoringController;
+use App\Http\Controllers\ServiceTaskEntriesController;
+use App\Http\Controllers\ListOrderManagementController;
+use App\Http\Controllers\MasterCostComponentController;
+use App\Http\Controllers\DetailOrderManagementController;
+use App\Http\Controllers\GetCartrack\CartrackVehiclesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +99,12 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 
     Route::post('/tracking_driver/update_location', [TrackingDriverController::class, 'UpdateLocationDriver']);
     //=========================mobile apps=========================
+
+    ////=========================GPS CARTRACK=========================
+    Route::get('cartrack/vahicle_tracking',[CartrackVehiclesController::class, 'getVehicleTracking']);
+    ////=========================END GPS CARTRACK=========================
+
+
 
     ////=========================Web=========================
     Route::get('/master_areas/get_data', [MasterAreasController::class, 'GetData']);
@@ -368,5 +375,6 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 //=========================procedure scrypt=========================
 Route::post('/procedure/close_traffic_monitoring', [ProcedureController::class, 'CloseTrafficMonitoring']);
 //=========================procedure scrypt=========================
+
 
 });
