@@ -63,18 +63,15 @@ class CartrackVehiclesController extends Controller
     {
         try {
             // Ambil vehicle_id dari request dan pastikan itu adalah array
-            $vehicleIds = $request->input('vehicle_id');
-
-            // Periksa apakah vehicle_id ada dan merupakan array
-            if (empty($vehicleIds) || !is_array($vehicleIds)) {
-                return response()->json(['error' => 'Vehicle ID must be provided as an array'], 400);
-            }
+            $vehicleIds = $request->input('vehicle_id'); //result bentuk array = ["B9438UEJ","B9586SEI","B9584SEI"]
+            implode(',', $vehicleIds); //diubah = B9438UEJ,B9586SEI,B9584SEI
 
             // Endpoint URL
             $endpoint = '/vehicles/status';
 
-            // Kirim permintaan ke API dengan query string
-            $data = $this->cartrackApiService->getData($endpoint, ['filter[registration]' => implode(',', $vehicleIds)]);
+            // ambil semua data dari API
+            $data = $this->cartrackApiService->getData($endpoint);
+            // $data = $this->cartrackApiService->getData($endpoint, ['filter[registration]' => implode(',', $vehicleIds)]);
 
             // Periksa apakah data berhasil diterima
             if ($data && isset($data['data'])) {

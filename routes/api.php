@@ -6,6 +6,7 @@ use App\Http\Controllers\PODController;
 use App\Http\Controllers\OwnedController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\RestApiController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\ManifestController;
@@ -375,6 +376,15 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 //=========================procedure scrypt=========================
 Route::post('/procedure/close_traffic_monitoring', [ProcedureController::class, 'CloseTrafficMonitoring']);
 //=========================procedure scrypt=========================
+
+
+//========================= Vendor API =========================
+// Menggunakan prefix 'api/v1' untuk semua rute dalam grup ini
+Route::prefix('v1')->middleware('jwt.auth')->group(function () {
+    Route::get('/order/all_order', [RestApiController::class, 'all_order']);
+});
+//========================= Vendor API =========================
+
 
 
 });

@@ -15,9 +15,12 @@ class CartrackApiService
     public function __construct()
     {
         $this->client = new Client();
-        $this->username = env('CARTRACK_USERNAME');
-        $this->password = env('CARTRACK_PASSWORD');
-        $this->baseUrl = env('CARTRACK_BASE_URL');  // Update to your base URL
+        $this->username = 'RICH00001';
+        $this->password = '4660717fb175521218cff7b25469e2feedde2c5d6b514297e17be866ece12d96';
+        $this->baseUrl = 'https://fleetapi-id.cartrack.com/rest';
+        // $this->username = env('CARTRACK_USERNAME');
+        // $this->password = env('CARTRACK_PASSWORD');
+        // $this->baseUrl = env('CARTRACK_BASE_URL');  // Update to your base URL
     }
 
     /**
@@ -53,23 +56,4 @@ class CartrackApiService
             return null;
         }
     }
-
-
-    // public function getData($endpoint)
-    // {
-    //     $url = $this->baseUrl . $endpoint;  // Construct the full URL
-
-    //     try {
-    //         $response = $this->client->request('GET', $url, [
-    //             'auth' => [$this->username, $this->password]  // Use 'auth' for automatic Basic Auth handling
-    //         ]);
-
-    //         $data = json_decode($response->getBody(), true);
-    //         return $data;
-    //     } catch (\Exception $e) {
-    //         Log::error('Cartrack API Request Failed: ' . $e->getMessage());
-    //         return null;
-    //     }
-
-    // }
 }
